@@ -20,6 +20,13 @@ public class MainFinder {
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		if (args.length < 2)
+		{
+			System.err.println("Not enough arguments given.");
+			System.err.println("Usage: find-main <class-file>");
+			System.exit(1);
+		}
+		
 		// Create a file object on the directory containing the class
 		File file = new File(args[1]);
 		
@@ -54,8 +61,9 @@ public class MainFinder {
 			System.out.println(main.toString());
 			
 		} catch (MalformedURLException e) {
-			
-		}
+			System.err.print("Unable to find given file");
+			System.exit(2);
+		} 
 	}
 
 }
