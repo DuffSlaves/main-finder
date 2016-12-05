@@ -2,23 +2,18 @@ package MainFinder;
 
 import java.io.*;
 import java.util.*;
-import java.lang.reflect.*;
 import java.net.*;
 
-import org.reflections.*;
-import org.reflections.scanners.*;
-import org.reflections.util.*;
-
-import static org.reflections.ReflectionUtils.*;
+import org.apache.bcel.classfile.*;
 
 public class MainFinder {
 
+	
 	static String getMethodDescriptor(Method m)
 	{
 		return m.toString();
 	}
-	
-	@SuppressWarnings("unchecked")
+		
 	public static void main(String[] args) {
 		if (args.length < 1)
 		{
@@ -28,45 +23,31 @@ public class MainFinder {
 		}
 		
 		// Create a file object on the directory containing the class
-		File file = new File(args[0]);
 		
-		try {
-			// Convert file to URL
-			URI url = file.toURI();
-			URL[] urls = new URL[]{ url.toURL() };
-						
-			Reflections reflections = new Reflections(new ConfigurationBuilder()
-		    .setScanners(new SubTypesScanner(false /* don't exclude Object.class */), new ResourcesScanner())
-		    .setUrls(urls));
+		try
+		{
+			JavaClass jclass = new ClassParser(args[0]).parse();
 			
-			Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
-			
-			System.out.print(classes.toString());
-			
-			Set<Method> possibleMains = new HashSet<Method>();
-			
-			for (Class<?> c : classes)
+			System.out.println("Class: " + jclass.getClassName());
+			System.out.println("  Methods:");
+			for (Method method : jclass.getMethods())
 			{
-				possibleMains.addAll(getAllMethods(c, 
-						withReturnType(void.class),
-						withParameters(String[].class),
-						withName("main"),
-						withModifier(Modifier.PUBLIC)));
+				System.out.println("    " + method);
+				
+				System.out.println(method.getSignature());
 			}
-			
-			if (possibleMains.isEmpty())
-			{
-				System.err.println("No main method was found!");
-				System.exit(1);
-			}
-			Method main = possibleMains.toArray(new Method[0])[0];
-			
-			System.out.println(main.toString());
-			
-		} catch (MalformedURLException e) {
-			System.err.print("Unable to find given file");
+		}
+		catch (IOException e)
+		{
+			System.err.println("The class file did not exist.");
 			System.exit(2);
-		} 
+		}
+		catch (ClassFormatException e)
+		{
+			System.err.println("The class file was invalid.");
+			System.exit(3);
+		}
+		
 	}
 
 }
