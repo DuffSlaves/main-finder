@@ -23,12 +23,12 @@ public class MainFinder {
 		if (args.length < 1)
 		{
 			System.err.println("Not enough arguments given.");
-			System.err.println("Usage: find-main <class-file>");
+			System.err.println("Usage: find-main <class-path>");
 			System.exit(1);
 		}
 		
 		// Create a file object on the directory containing the class
-		File file = new File(args[1]);
+		File file = new File(args[0]);
 		
 		try {
 			// Convert file to URL
