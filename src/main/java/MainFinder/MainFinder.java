@@ -20,7 +20,7 @@ public class MainFinder {
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		if (args.length < 2)
+		if (args.length < 1)
 		{
 			System.err.println("Not enough arguments given.");
 			System.err.println("Usage: find-main <class-file>");
@@ -54,6 +54,7 @@ public class MainFinder {
 			
 			if (possibleMains.isEmpty())
 			{
+				System.err.println("No main method was found!");
 				System.exit(1);
 			}
 			Method main = possibleMains.toArray(new Method[0])[0];
