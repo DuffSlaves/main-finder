@@ -41,6 +41,8 @@ public class MainFinder {
 			
 			Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 			
+			System.out.print(classes.toString());
+			
 			Set<Method> possibleMains = new HashSet<Method>();
 			
 			for (Class<?> c : classes)
