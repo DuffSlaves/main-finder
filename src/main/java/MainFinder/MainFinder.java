@@ -8,26 +8,41 @@ import org.apache.bcel.classfile.*;
 
 public class MainFinder {
 	public static void main(String[] args) {
-		if (args.length < 1)
+		if (args.length < 2)
 		{
 			System.err.println("Not enough arguments given.");
 			System.err.println("Usage: find-main <command> <class-path>");
 			System.exit(1);
 		}
-		
+
 		// Create a file object on the directory containing the class
-		
+
 		try
 		{
-			JavaClass jclass = new ClassParser(args[0]).parse();
-			
-			System.out.println("Class: " + jclass.getClassName());
-			System.out.println(jclass.getPackageName());
-			System.out.println("  Methods:");
-			for (Method method : jclass.getMethods())
+			JavaClass jclass = new ClassParser(args[1]).parse();
+
+			if (args[0].equals("p"))
 			{
-				System.out.println(method.getName());
-				System.out.println(method.getSignature());
+				System.out.println(jclass.getPackageName().replaceAll("\\.", "//"));
+			}
+			else if (args[0].equals("m"))
+			{
+				for (Method method : jclass.getMethods())
+				{
+					System.out.print(method.getName());
+					System.out.println(method.getSignature());
+				}				
+			}
+			else
+			{
+				System.out.println("Class: " + jclass.getClassName());
+				System.out.println(jclass.getPackageName());
+				System.out.println("  Methods:");
+				for (Method method : jclass.getMethods())
+				{
+					System.out.println(method.getName());
+					System.out.println(method.getSignature());
+				}
 			}
 		}
 		catch (IOException e)
@@ -40,7 +55,7 @@ public class MainFinder {
 			System.err.println("The class file was invalid.");
 			System.exit(3);
 		}
-		
+
 	}
 
 }
