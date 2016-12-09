@@ -14,8 +14,9 @@ public class MainFinder {
 				+ "    p  Print the package that the class is in.\n"
 				+ "    pp Print the package that the class is in as a unix path.\n"
 				+ "    m  Print all methods within the class.\n"
-				+ "    mm Print the main method of the class. If there is no main method return error.\n");		
-	}
+				+ "    mm Print the main method of the class. If there is no main method return error.\n"
+				+ "    c  Print the class name with complete path.");
+		}
 	public static void main(String[] args) {
 		if (args.length < 2)
 		{
@@ -74,6 +75,10 @@ public class MainFinder {
 				System.out.print(mains.get(0).getName());
 				System.out.print(mains.get(0).getSignature());
 				System.out.println();
+			}
+			else if (args[0].equals("c"))
+			{
+				System.out.println(jclass.getClassName());
 			}
 			else
 			{
