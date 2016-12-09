@@ -7,18 +7,11 @@ import java.net.*;
 import org.apache.bcel.classfile.*;
 
 public class MainFinder {
-
-	
-	static String getMethodDescriptor(Method m)
-	{
-		return m.toString();
-	}
-		
 	public static void main(String[] args) {
 		if (args.length < 1)
 		{
 			System.err.println("Not enough arguments given.");
-			System.err.println("Usage: find-main <class-path>");
+			System.err.println("Usage: find-main <command> <class-path>");
 			System.exit(1);
 		}
 		
@@ -29,11 +22,11 @@ public class MainFinder {
 			JavaClass jclass = new ClassParser(args[0]).parse();
 			
 			System.out.println("Class: " + jclass.getClassName());
+			System.out.println(jclass.getPackageName());
 			System.out.println("  Methods:");
 			for (Method method : jclass.getMethods())
 			{
-				System.out.println("    " + method);
-				
+				System.out.println(method.getName());
 				System.out.println(method.getSignature());
 			}
 		}
