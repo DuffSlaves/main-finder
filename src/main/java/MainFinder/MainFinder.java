@@ -70,7 +70,6 @@ public class MainFinder {
 					System.exit(11);
 				}
 				
-				System.out.print(jclass.getPackageName() + '.');
 				System.out.print(jclass.getClassName() + '.');
 				System.out.print(mains.get(0).getName());
 				System.out.print(mains.get(0).getSignature());
